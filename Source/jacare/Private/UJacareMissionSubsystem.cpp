@@ -10,7 +10,7 @@
 #include "Engine/StreamableManager.h"
 #include "Engine/AssetManager.h"
 
-void UUJacareMissionSubsystem::LoadAndSpawnMission()
+void UJacareMissionSubsystem::LoadAndSpawnMission()
 {
 	const UJacareSettings* Settings = GetDefault<UJacareSettings>();
 
@@ -23,13 +23,13 @@ void UUJacareMissionSubsystem::LoadAndSpawnMission()
 	Request->SetVerb(TEXT("GET"));
 	Request->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
 	Request->SetHeader(TEXT("x-api-key"), Settings->EngineApiKey);
-	Request->OnProcessRequestComplete().BindUObject(this, &UUJacareMissionSubsystem::OnHttpResponse);
+	Request->OnProcessRequestComplete().BindUObject(this, &UJacareMissionSubsystem::OnHttpResponse);
 	Request->ProcessRequest();
 
 	UE_LOG(LogTemp, Warning, TEXT("Jacare: Buscando missão %s no backend..."), *MissionId);
 }
 
-void UUJacareMissionSubsystem::OnHttpResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bSuccess)
+void UJacareMissionSubsystem::OnHttpResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bSuccess)
 {
 	if (!bSuccess || !Response.IsValid())
 	{
@@ -50,7 +50,7 @@ void UUJacareMissionSubsystem::OnHttpResponse(FHttpRequestPtr Request, FHttpResp
 		FSoftClassPath SoftPath(MissionData.target_actor.class_path);
 		UAssetManager::GetStreamableManager().RequestAsyncLoad(
 			SoftPath,
-			FStreamableDelegate::CreateUObject(this, &UUJacareMissionSubsystem::OnTargetLoaded, MissionData)
+			FStreamableDelegate::CreateUObject(this, &UJacareMissionSubsystem::OnTargetLoaded, MissionData)
 		);
 	}
 	else
@@ -59,7 +59,7 @@ void UUJacareMissionSubsystem::OnHttpResponse(FHttpRequestPtr Request, FHttpResp
 	}
 }
 
-void UUJacareMissionSubsystem::OnTargetLoaded(FJacareMissionData MissionData)
+void UJacareMissionSubsystem::OnTargetLoaded(FJacareMissionData MissionData)
 {
 	FSoftClassPath SoftPath(MissionData.target_actor.class_path);
 	UClass* LoadedClass = Cast<UClass>(SoftPath.ResolveObject());

@@ -9,10 +9,10 @@
 #include "UJacareMissionSubsystem.generated.h"
 
 /**
- * Configurações do Jacare Flow expostas no Project Settings.
- * Acesse em: Project Settings → Plugins → Jacare Flow
+ * Configurações do Jacare expostas no Project Settings.
+ * Acesse em: Project Settings → Plugins → Jacare
  */
-UCLASS(Config = Game, DefaultConfig, meta = (DisplayName = "Jacare Flow"))
+UCLASS(Config = Game, DefaultConfig, meta = (DisplayName = "Jacare"))
 class JACARE_API UJacareSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -52,7 +52,7 @@ struct FJacareMissionData
 };
 
 UCLASS()
-class JACARE_API UUJacareMissionSubsystem : public UGameInstanceSubsystem
+class JACARE_API UJacareMissionSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
